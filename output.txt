@@ -1,0 +1,87 @@
+rapid-template-register on  main [?] via 🥟 v1.2.21 
+👉 bun run src/index.ts
+✔ Pick Labels where you want to register the template › 5o5gIR: DIA (India)
+✅ Read template file
+
+🔄 Iteration 1
+✅ Generated modified template using AI
+✅ Crafted replacement with name: passcode_issue_v4_4656
+✅ Verified: Reconstruction matches original exactly
+🗑️ Deleted MARKETING template: 200 OK true
+❌ Got MARKETING category, retrying...
+
+🔄 Iteration 2
+✅ Generated modified template using AI
+✅ Crafted replacement with name: account_flag_review_v4_841
+✅ Verified: Reconstruction matches original exactly
+🗑️ Deleted MARKETING template: 200 OK true
+❌ Got MARKETING category, retrying...
+
+🔄 Iteration 3
+✅ Generated modified template using AI
+✅ Crafted replacement with name: qr_validation_sync_v3_562
+✅ Verified: Reconstruction matches original exactly
+🗑️ Deleted MARKETING template: 200 OK true
+❌ Got MARKETING category, retrying...
+
+🔄 Iteration 4
+✅ Generated modified template using AI
+✅ Crafted replacement with name: ticket_autogen_v9_3656
+✅ Verified: Reconstruction matches original exactly
+🗑️ Deleted MARKETING template: 200 OK true
+❌ Got MARKETING category, retrying...
+
+🔄 Iteration 5
+✅ Generated modified template using AI
+✅ Crafted replacement with name: qr_validation_sync_v3_3271
+⚠️ Reconstructed text doesn't match original
+   Original length: 440, Reconstructed length: 438
+   First difference at position 248:
+Original: "tunities.
+
+Unlock 
+* *Dedicated Business"
+Reconstructed: "tunities.
+
+Unlock 
+*Dedicated Business L"
+
+🔄 Iteration 6
+✅ Generated modified template using AI
+✅ Crafted replacement with name: otw_ticket_push_v3_9496
+✅ Verified: Reconstruction matches original exactly
+🗑️ Deleted MARKETING template: 200 OK true
+❌ Got MARKETING category, retrying...
+
+🔄 Iteration 7
+✅ Generated modified template using AI
+✅ Crafted replacement with name: async_booking_update_v6_6305
+✅ Verified: Reconstruction matches original exactly
+🗑️ Deleted MARKETING template: 200 OK true
+❌ Got MARKETING category, retrying...
+
+🔄 Iteration 8
+✅ Generated modified template using AI
+✅ Crafted replacement with name: passcode_issue_v4_1741
+✅ Verified: Reconstruction matches original exactly
+🗑️ Deleted MARKETING template: 200 OK true
+❌ Got MARKETING category, retrying...
+
+🔄 Iteration 9
+✅ Generated modified template using AI
+✅ Crafted replacement with name: order_update_batch_4_7228
+✅ Verified: Reconstruction matches original exactly
+🗑️ Deleted MARKETING template: 200 OK true
+❌ Got MARKETING category, retrying...
+
+🔄 Iteration 10
+✅ Generated modified template using AI
+✅ Crafted replacement with name: event_auto_qr_55_3142
+✅ Verified: Reconstruction matches original exactly
+🗑️ Deleted MARKETING template: 200 OK true
+❌ Got MARKETING category, retrying...
+
+⚠️ Reached maximum iterations (10) without success
+
+rapid-template-register on  main [?] via 🥟 v1.2.21 took 16m3s 
+👉 
