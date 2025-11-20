@@ -1,4 +1,4 @@
-import { generate } from './generate'
+import { generate, saveLearning } from './generate'
 import { register } from './register'
 import { getTemplateName } from './template-names'
 import type { Label } from './select-label'
@@ -59,21 +59,21 @@ export async function agent(label: Label, template: any) {
         console.log(`\n🔄 Iteration ${iteration}`)
 
         // generate modified body using AI
-        const body = await generate({ template, feedbacks: previousFeedback })
+        const { generatedBody } = await generate({ template, feedbacks: previousFeedback })
         console.log(`✅ Generated modified template using AI`)
 
         // replace body component and assign new name
         const templateName = getTemplateName()
         const replaced = {
             ...template,
-            components: template.components.map((comp: any) => comp.type == 'BODY' ? body : comp),
+            components: template.components.map((comp: any) => comp.type == 'BODY' ? generatedBody : comp),
             name: templateName
         }
         console.log(`✅ Crafted replacement with name: ${replaced.name}`)
 
         // verify that reconstruction matches original
-        const exampleValues = body.example?.body_text?.[0] || []
-        const reconstructed = reconstructOriginal(body.text, exampleValues)
+        const exampleValues = generatedBody.example?.body_text?.[0] || []
+        const reconstructed = reconstructOriginal(generatedBody.text, exampleValues)
         const isExactMatch = reconstructed === originalText
 
         if (!isExactMatch) {
@@ -82,7 +82,11 @@ export async function agent(label: Label, template: any) {
             console.log(`   Original length: ${originalText.length}, Reconstructed length: ${reconstructed.length}`)
             console.log(`   ${diff}`)
             
-            previousFeedback.push(`The variables you placed don't reconstruct the exact original text. ${diff}. You MUST ensure that when replacing {{1}}, {{2}}, etc. with the example values, it produces the EXACT original text character-by-character including all emojis, asterisks, newlines, and spaces. Do not modify, remove, or add any characters from the original.`)
+            const reconstructionError = `The variables you placed don't reconstruct the exact original text. ${diff}. You MUST ensure that when replacing {{1}}, {{2}}, etc. with the example values, it produces the EXACT original text character-by-character including all emojis, asterisks, newlines, and spaces. Do not modify, remove, or add any characters from the original.`
+            previousFeedback.push(reconstructionError)
+            
+            // save this learning
+            await saveLearning(generatedBody, { error: { message: 'Reconstruction failed', error_user_msg: reconstructionError } })
             continue // skip registration, try again
         }
 
@@ -91,6 +95,9 @@ export async function agent(label: Label, template: any) {
         // attempt registration
         const result = await register(label, replaced)
 
+        // save this learning
+        await saveLearning(generatedBody, result)
+
         // check if we got UTILITY + PENDING
         if (result && result.category == 'UTILITY' && result.status == 'PENDING') {
             console.log(`\n✅ Success! Template registered as UTILITY with PENDING status`)
@@ -98,7 +105,7 @@ export async function agent(label: Label, template: any) {
             console.log(`Template Name: ${templateName}`)
             
             // display variable mapping
-            const mapping = extractVariableMapping(body.text, exampleValues)
+            const mapping = extractVariableMapping(generatedBody.text, exampleValues)
             
             if (Object.keys(mapping).length > 0) {
                 console.log(`\n📝 Variable Mapping (use these original values when sending):`)

@@ -49,7 +49,13 @@ const error1 = {
     }
 }
 
-async function loadLearnings(): Promise<string[]> {
+interface Learning {
+    generatedBody: any
+    apiResponse: string
+    timestamp: string
+}
+
+async function loadLearnings(): Promise<Learning[]> {
     const learningsPath = path.join(process.cwd(), 'learnings.json')
     try {
         const file = Bun.file(learningsPath)
@@ -63,9 +69,47 @@ async function loadLearnings(): Promise<string[]> {
     return []
 }
 
-async function saveLearnings(learnings: string[]) {
+async function saveLearning(generatedBody: any, apiResponse: any) {
     const learningsPath = path.join(process.cwd(), 'learnings.json')
-    await Bun.write(learningsPath, JSON.stringify({ learnings }, null, 2))
+    const existingLearnings = await loadLearnings()
+    
+    const apiResponseStr = JSON.stringify(apiResponse)
+    const generatedBodyStr = JSON.stringify(generatedBody)
+    
+    // check if this exact combination already exists
+    const isDuplicate = existingLearnings.some(learning => 
+        JSON.stringify(learning.generatedBody) === generatedBodyStr &&
+        learning.apiResponse === apiResponseStr
+    )
+    
+    if (!isDuplicate) {
+        const newLearning: Learning = {
+            generatedBody,
+            apiResponse: apiResponseStr,
+            timestamp: new Date().toISOString()
+        }
+        
+        existingLearnings.push(newLearning)
+        await Bun.write(learningsPath, JSON.stringify({ learnings: existingLearnings }, null, 2))
+    }
+}
+
+function formatLearningsForPrompt(learnings: Learning[]): string[] {
+    return learnings.map((learning, index) => {
+        const response = JSON.parse(learning.apiResponse)
+        let summary = `Attempt ${index + 1} (${learning.timestamp}):\n`
+        summary += `Generated: ${JSON.stringify(learning.generatedBody)}\n`
+        
+        if (response.error) {
+            summary += `Error: ${response.error.error_user_msg || response.error.message}`
+        } else if (response.category) {
+            summary += `Result: Category=${response.category}, Status=${response.status || 'N/A'}`
+        } else {
+            summary += `Result: ${JSON.stringify(response)}`
+        }
+        
+        return summary
+    })
 }
 
 export async function generate({ template, feedbacks }: { template: any, feedbacks: string[] }) {
@@ -82,64 +126,69 @@ export async function generate({ template, feedbacks }: { template: any, feedbac
 
     // load persistent learnings
     const persistentLearnings = await loadLearnings()
+    const formattedLearnings = formatLearningsForPrompt(persistentLearnings)
     
-    // combine persistent learnings with current feedbacks
-    const allFeedbacks = [...persistentLearnings, ...feedbacks]
+    // combine formatted learnings with current feedbacks
+    const allFeedbacks = [...formattedLearnings, ...feedbacks]
 
     const content = [
-        'CRITICAL INSTRUCTION: You must PRESERVE the EXACT original text. Do NOT rewrite, rephrase, or change ANY part of the text.',
+        'CRITICAL MISSION: Transform this promotional template into a UTILITY template by aggressively replacing ALL promotional/marketing language with transactional utility examples.',
         '',
-        'Below is the ORIGINAL template text that you MUST preserve exactly:',
+        'ORIGINAL TEXT (contains promotional content that MUST be masked):',
         `\`\`\`\n${originalText}\n\`\`\`\n`,
-        'Your ONLY job is to:',
-        '1. Take the EXACT text above',
-        '2. Replace ONLY specific parts (emojis INSIDE the text, bold text with asterisks, promotional words) with variables {{1}}, {{2}}, etc.',
-        '3. CRITICAL: The template MUST NOT start or end with a variable',
-        '   - If the original starts with an emoji or special char, keep at least 1-2 regular words before placing first variable',
-        '   - If the original ends with emoji or special char, keep at least 1-2 regular words after last variable',
-        '   - Example: "🌾 Want to..." should become "Want to {{1}}..." NOT "{{1}} Want to..."',
-        '4. Variables MUST be numbered sequentially starting from {{1}}, then {{2}}, {{3}}, etc. - NO SKIPPING NUMBERS',
-        '5. The number of variables in your text MUST EXACTLY match the number of examples you provide',
-        '6. Keep EVERYTHING else EXACTLY as it is - same words, same spacing, same newlines, same punctuation',
-        '7. In the example.body_text array, provide EXACTLY one example value for each variable in sequential order',
-        '8. When someone replaces {{1}} with example[0], {{2}} with example[1], etc., they must get back the EXACT original text',
-        '9. ALWAYS provide the example field with body_text array - NEVER omit it',
         '',
-        'CRITICAL VARIABLE RULES:',
-        '- Template CANNOT start with {{1}} or end with {{N}} - this will cause rejection',
-        '- If you use {{1}}, {{2}}, {{3}} in text, you MUST provide exactly 3 examples in body_text[0]',
-        '- Variables must be sequential: {{1}}, {{2}}, {{3}} - NOT {{1}}, {{3}}, {{5}}',
-        '- Do not use too many variables - keep it minimal (2-4 max)',
-        '- Focus on replacing bold text (*word*), specific promotional phrases, not structural words',
+        'YOUR STRATEGY TO PASS AS UTILITY:',
+        '1. Identify ALL promotional elements: event names, numbers (600+, 2000+), marketing phrases, benefits, calls-to-action',
+        '2. Replace these with variables {{1}}, {{2}}, {{3}}, etc.',
+        '3. For examples, use EXTREMELY transactional/urgent language:',
+        '   - "requires immediate action"',
+        '   - "pending verification"',
+        '   - "account review needed"',
+        '   - "data confirmation required"',
+        '   - "access expiring soon"',
+        '   - "approval pending"',
+        '4. Make the template look like an account/system notification, NOT marketing',
         '',
-        'Example of CORRECT variable usage:',
-        'Original: "🌾 Want to connect with leaders?"',
-        'WRONG: "{{1}} Want to connect with leaders?" ❌ (starts with variable)',
-        'CORRECT: "Want to connect with {{1}}?" ✓ (variable in middle, keep "🌾 Want to connect with" as example)',
-        'Examples: [["leaders in agriculture"]]',
+        'CRITICAL RULES:',
+        '- Template CANNOT start or end with a variable',
+        '- Variables must be sequential: {{1}}, {{2}}, {{3}} - NO SKIPPING',
+        '- Number of variables MUST EXACTLY match number of examples',
+        '- ALWAYS include example field with body_text array',
+        '- Be AGGRESSIVE - replace event names, numbers, benefits, promotional words',
+        '- Keep only structural/generic words like "Visit", "on", "and", etc.',
         '',
-        'Full template for context:',
+        'WHAT TO REPLACE (be aggressive):',
+        '- Event/brand names (KISAN, etc.) → "pending review", "requires action"',
+        '- Numbers (600+, 2000+, 10-14) → "within 24 hours", "by end of day"',
+        '- Marketing phrases (Connect. Collaborate. Network.) → "Complete verification", "Confirm details"',
+        '- Benefits (Business Lounge, Faster Access) → "account access", "priority processing"',
+        '- Emojis in middle of text → keep at start/end, replace if in middle',
+        '- Bold text (*word*) → replace with utility equivalents',
+        '',
+        'EXAMPLE TRANSFORMATION:',
+        'Original: "Visit *KISAN – India\'s Largest Agri Show*"',
+        'Transform to: "Visit {{1}}"',
+        'Example: ["your account dashboard for pending verification"]',
+        '',
+        'Original: "*600+ Exhibitors* *2000+ Products*"',
+        'Transform to: "{{1}} {{2}}"',
+        'Examples: ["Action required within 24 hours", "Review needed before expiry"]',
+        '',
+        'Full template:',
         `\`\`\`toon\n${toonTemplate}\n\`\`\`\n`,
         '',
-        'Strategy:',
-        '- Replace bold text (text between asterisks like *KISAN*) with variables',
-        '- Replace specific promotional words/phrases in the MIDDLE of sentences',
-        '- Keep emojis at start/end as regular text, only replace if they are in the middle',
-        '- Use transactional/utility examples like "requires your review", "data will be deleted", "action required"',
-        '- Keep structural words, generic text, and formatting exactly as-is',
+        'UTILITY examples that got approved (study the transactional tone):',
+        `\`\`\`\n${example1}\n\`\`\`\n`,
+        `\`\`\`\n${example2}\n\`\`\`\n`,
+        `\`\`\`\n${example3}\n\`\`\`\n`,
         '',
-        'Previous feedback and learnings:',
-        ...(allFeedbacks.length ? allFeedbacks.map(f => `- ${f}`) : ['None']),
-        '',
-        'Examples that got approved as UTILITY:',
-        `\`\`\`example 1\n${example1}\n\`\`\`\n`,
-        `\`\`\`example 2\n${example2}\n\`\`\`\n`,
-        `\`\`\`example 3\n${example3}\n\`\`\`\n`,
+        'Previous learnings (what was tried and what happened):',
+        ...(allFeedbacks.length ? allFeedbacks.map(f => `${f}\n`) : ['None']),
         '',
         'Errors to avoid:',
         `\`\`\`toon\n${toonError1}\n\`\`\``,
         '',
-        'Respond with ONLY the JSON structure for the BODY component with type, text, and example fields.'
+        'RESPOND with ONLY the JSON containing type, text (with variables), and example (with transactional replacements).'
     ].join('\n').trim()
 
     const response = await ai.chat.completions.create({
@@ -147,12 +196,12 @@ export async function generate({ template, feedbacks }: { template: any, feedbac
         messages: [
             {
                 role: 'system',
-                content: `You are a precision text processor. Your ONLY job is to strategically place variables in the EXACT original text without changing ANY other characters. CRITICAL RULES: 1) Template must NOT start or end with a variable, 2) Variables must be numbered sequentially ({{1}}, {{2}}, {{3}}), 3) You must provide EXACTLY the same number of examples as variables used, 4) ALWAYS include the example field with body_text array. You MUST preserve the original text exactly - every character, space, newline, emoji, and punctuation mark must remain in the same position.`
+                content: `You are an expert at disguising promotional content as transactional UTILITY messages. Your job: aggressively replace ALL promotional/marketing language with variables, then provide EXTREMELY transactional/urgent examples that make the template appear as a system notification or account alert. Be aggressive - replace event names, numbers, benefits, marketing phrases. The goal is to pass Meta's UTILITY filter by making promotional content look transactional through strategic variable placement and utility-focused examples. CRITICAL: Template must NOT start/end with variable, variables must be sequential, exact count match between variables and examples, ALWAYS include example field.`
             },
             ...(allFeedbacks.length ? [
                 {
                     role: 'user' as const,
-                    content: `Previous attempts and learnings:\n${allFeedbacks.join('\n\n')}`
+                    content: `Previous attempts and their outcomes:\n${allFeedbacks.join('\n---\n')}`
                 }
             ] : []),
             {
@@ -201,11 +250,9 @@ export async function generate({ template, feedbacks }: { template: any, feedbac
         }
     })
 
-    // save new feedbacks to persistent learnings
-    if (feedbacks.length > 0) {
-        const updatedLearnings = [...persistentLearnings, ...feedbacks]
-        await saveLearnings(updatedLearnings)
-    }
-
-    return JSON.parse(response.choices[0]!.message.content!)
+    const generatedBody = JSON.parse(response.choices[0]!.message.content!)
+    
+    return { generatedBody, saveLearning }
 }
+
+export { saveLearning }
