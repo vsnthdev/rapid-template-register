@@ -1,0 +1,356 @@
+{
+  "learnings": [
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Notice regarding {{1}}.\n\nVisit {{2}}\n\n🤝 {{3}} \n🚜 {{4}} \n⛺ {{5}}\n\n{{6}}\nOffer your business {{7}}\n\nUnlock \n* {{8}}\n* {{9}}\n* {{10}}\n* {{11}}\nand much more\n\n🗓️ {{12}}\n📍 {{13}}\n\n👇 {{14}} to proceed.",
+        "example": {
+          "body_text": [
+            [
+              "your account security preferences",
+              "the dashboard settings",
+              "Profile status updated",
+              "New configuration available",
+              "System maintenance scheduled",
+              "Verification check complete.",
+              "enhanced data protection",
+              "Secure login access",
+              "Two-factor authentication",
+              "Priority support channel",
+              "Encrypted file transfer",
+              "Effective immediately",
+              "Server Region US-East",
+              "Review alert"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Reconstruction failed\",\"error_user_msg\":\"The variables you placed don't reconstruct the exact original text. First difference at position 3:\\nOriginal: \\\"🌾 Want to connect with\\\"\\nReconstructed: \\\"🌾 Notice regarding you\\\". You MUST ensure that when replacing {{1}}, {{2}}, etc. with the example values, it produces the EXACT original text character-by-character including all emojis, asterisks, newlines, and spaces. Do not modify, remove, or add any characters from the original.\"}}",
+      "timestamp": "2025-11-20T15:06:48.152Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Alert: {{1}}\n\nVisit {{2}}\n\n🤝 {{3}} \n🚜 {{4}} \n⛺ {{5}}\n\n{{6}}\nUpdate your business {{7}}\n\nUnlock \n* {{8}}\n* {{9}}\n* {{10}}\n* {{11}}\n{{12}}\n\n🗓️ {{13}}\n📍 {{14}}\n\n👇 {{15}} to resolve.",
+        "example": {
+          "body_text": [
+            [
+              "New security protocol",
+              "the help center",
+              "Status: Pending",
+              "Ticket: #8821",
+              "Level: High",
+              "Action required immediately.",
+              "contact preferences",
+              "Two-factor authentication",
+              "Secure login access",
+              "Priority support channel",
+              "Data backup settings",
+              "and more settings",
+              "Scheduled: Today",
+              "Region: AP-South-1",
+              "Click here"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Reconstruction failed\",\"error_user_msg\":\"The variables you placed don't reconstruct the exact original text. First difference at position 3:\\nOriginal: \\\"🌾 Want to connect with\\\"\\nReconstructed: \\\"🌾 Alert: New security \\\". You MUST ensure that when replacing {{1}}, {{2}}, etc. with the example values, it produces the EXACT original text character-by-character including all emojis, asterisks, newlines, and spaces. Do not modify, remove, or add any characters from the original.\"}}",
+      "timestamp": "2025-11-20T15:09:14.766Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 {{1}}\n\nVisit {{2}}\n\n🤝 {{3}} \n🚜 {{4}} \n⛺ {{5}}\n\n{{6}}\n{{7}}\n\nUnlock \n* *{{8}}*\n* *{{9}}*\n* *{{10}}*\n* *{{11}}*\n{{12}}\n\n🗓️ {{13}}\n📍 {{14}}\n\n👇 {{15}}",
+        "example": {
+          "body_text": [
+            [
+              "Notice regarding your account security",
+              "your secure dashboard panel",
+              "*Ticket 8821*",
+              "*Status: Open*",
+              "*Priority: High*",
+              "*Verification Required*",
+              "Complete your profile update.",
+              "Device Authorization",
+              "Password Reset",
+              "Activity Log",
+              "Session History",
+              "and security settings",
+              "*Action Required*",
+              "Region: *US-West*",
+              "Confirm request now"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Reconstruction failed\",\"error_user_msg\":\"The variables you placed don't reconstruct the exact original text. First difference at position 3:\\nOriginal: \\\"🌾 Want to connect with\\\"\\nReconstructed: \\\"🌾 Notice regarding you\\\". You MUST ensure that when replacing {{1}}, {{2}}, etc. with the example values, it produces the EXACT original text character-by-character including all emojis, asterisks, newlines, and spaces. Do not modify, remove, or add any characters from the original.\"}}",
+      "timestamp": "2025-11-20T15:10:54.480Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Want to connect with leaders in agriculture?\n\nVisit *{{1}}*\n\n🤝 *{{2}}* \n🚜 *{{3}}* \n⛺ *{{4}}*\n\n*{{5}}*\nOffer your business new opportunities.\n\nUnlock \n* *{{6}}*\n* *{{7}}*\n* *{{8}}*\n* *{{9}}*\nand much more\n\n🗓️ *{{10}}* December\n📍 {{11}}\n\n👇 Book your Business Pass now!",
+        "example": {
+          "body_text": [
+            [
+              "KISAN – India’s Largest Agri Show",
+              "600+ Exhibitors",
+              "2000+ Products",
+              "10+ Specialized Pavilions",
+              "Connect. Collaborate. Network.",
+              "Dedicated Business Lounge",
+              "Faster Access",
+              "Networking Opportunities",
+              "Entry on all 5 days",
+              "10–14",
+              "PIECC, *Moshi, Pune*"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"category\":\"MARKETING\",\"deleted\":true,\"name\":\"event_security_update_4_1915\"}",
+      "timestamp": "2025-11-20T15:15:08.353Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Want to connect with leaders in agriculture?\n\nVisit *{{1}}*\n\n🤝 *{{2}}* \n🚜 *{{3}}* \n⛺ *{{4}}*\n\n*{{5}}*\nOffer your business new opportunities.\n\nUnlock \n* *{{6}}*\n* *{{7}}*\n* *{{8}}*\n* *{{9}}*\nand much more\n\n🗓️ *{{10}}* December\n📍 {{11}}\n\n👇 Book your Business Pass now!",
+        "example": {
+          "body_text": [
+            [
+              "KISAN – India’s Largest Agri Show",
+              "600+ Exhibitors",
+              "2000+ Products",
+              "10+ Specialized Pavilions",
+              "Connect. Collaborate. Network.",
+              "Dedicated Business Lounge",
+              "Faster Access",
+              "Networking Opportunities",
+              "Entry on all 5 days",
+              "10–14",
+              "PIECC, *Moshi, Pune*"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"category\":\"MARKETING\",\"deleted\":true,\"name\":\"confirmation_notice_21_8925\"}",
+      "timestamp": "2025-11-20T15:17:04.672Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Want to {{1}}?\n\nVisit *{{2}}*\n\n🤝 *{{3}}* \n🚜 *{{4}}* \n⛺ *{{5}}*\n\n*{{6}}*\nOffer your business {{7}}.\n\nUnlock \n* *{{8}}*\n* *{{9}}*\n* *{{10}}*\n* *{{11}}*\nand much more\n\n🗓️ *{{12}}* December\n📍 {{13}}\n\n👇 Book your {{14}} now!",
+        "example": {
+          "body_text": [
+            [
+              "connect with leaders in agriculture",
+              "KISAN – India’s Largest Agri Show",
+              "600+ Exhibitors",
+              "2000+ Products",
+              "10+ Specialized Pavilions",
+              "Connect. Collaborate. Network.",
+              "new opportunities",
+              "Dedicated Business Lounge",
+              "Faster Access",
+              "Networking Opportunities",
+              "Entry on all 5 days",
+              "10–14",
+              "PIECC, *Moshi, Pune*",
+              "Business Pass"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Invalid parameter\",\"type\":\"OAuthException\",\"code\":100,\"error_subcode\":2388293,\"is_transient\":false,\"error_user_title\":\"Parameters words ratio exceeds limit\",\"error_user_msg\":\"This template has too many variables for its length. Reduce the number of variables or increase the message length.\",\"fbtrace_id\":\"AugROMDBmETUkQqll5hHRYm\"}}",
+      "timestamp": "2025-11-20T15:18:38.064Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 {{1}}?\n\nVisit *{{2}}*\n\n🤝 {{3}} \n🚜 {{4}} \n⛺ {{5}}\n\n{{6}}\nOffer your business {{7}}.\n\nUnlock \n{{8}}\nand much more\n\n🗓️ {{9}} December\n📍 {{10}}\n\n👇 Book your {{11}} now!",
+        "example": {
+          "body_text": [
+            [
+              "Action required: Verify your system status",
+              "Security Command Center Enterprise",
+              "*5 Affected Users*",
+              "*12 Compromised Files*",
+              "*3 Critical Hubs*",
+              "*Identify. Protect. Defend.*",
+              "critical security updates",
+              "* *Firewall Configuration*\n* *Access Logs*\n* *User Permissions*\n* *Session Data*",
+              "*15–20*",
+              "Server, *US-East-1*",
+              "audit slot"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Reconstruction failed\",\"error_user_msg\":\"The variables you placed don't reconstruct the exact original text. First difference at position 3:\\nOriginal: \\\"🌾 Want to connect with\\\"\\nReconstructed: \\\"🌾 Action required: Ver\\\". You MUST ensure that when replacing {{1}}, {{2}}, etc. with the example values, it produces the EXACT original text character-by-character including all emojis, asterisks, newlines, and spaces. Do not modify, remove, or add any characters from the original.\"}}",
+      "timestamp": "2025-11-20T15:21:28.694Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 {{1}}\n\nVisit *{{2}}*\n\n🤝 *{{3}}* \n🚜 *{{4}}* \n⛺ *{{5}}*\n\n{{6}}\n\nUnlock \n{{7}}\nand much more\n\n🗓️ *{{8}}* December\n📍 {{9}}\n\n👇 {{10}}",
+        "example": {
+          "body_text": [
+            [
+              "Want to connect with leaders in agriculture?",
+              "KISAN – India’s Largest Agri Show",
+              "600+ Exhibitors",
+              "2000+ Products",
+              "10+ Specialized Pavilions",
+              "*Connect. Collaborate. Network.*\nOffer your business new opportunities.",
+              "* *Dedicated Business Lounge*\n* *Faster Access*\n* *Networking Opportunities*\n* *Entry on all 5 days*",
+              "10–14",
+              "PIECC, *Moshi, Pune*",
+              "Book your Business Pass now!"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Invalid parameter\",\"type\":\"OAuthException\",\"code\":100,\"error_subcode\":2388293,\"is_transient\":false,\"error_user_title\":\"Parameters words ratio exceeds limit\",\"error_user_msg\":\"This template has too many variables for its length. Reduce the number of variables or increase the message length.\",\"fbtrace_id\":\"AbpmsyemyVbgyE6CR4aWtP5\"}}",
+      "timestamp": "2025-11-20T15:22:39.648Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Want to connect with {{1}}?\n\nVisit *{{2}}*\n\n🤝 *{{3}}* \n🚜 *{{4}}* \n⛺ *{{5}}*\n\n*{{6}}*\n{{7}}\n\nUnlock \n* {{8}}\nand much more\n\n🗓️ *{{9}}* December\n📍 PIECC, *{{10}}*\n\n👇 Book your {{11}} now!",
+        "example": {
+          "body_text": [
+            [
+              "leaders in agriculture",
+              "KISAN – India’s Largest Agri Show",
+              "600+ Exhibitors",
+              "2000+ Products",
+              "10+ Specialized Pavilions",
+              "Connect. Collaborate. Network.",
+              "Offer your business new opportunities.",
+              "*Dedicated Business Lounge*\n* *Faster Access*\n* *Networking Opportunities*\n* *Entry on all 5 days*",
+              "10–14",
+              "Moshi, Pune",
+              "Business Pass"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Invalid parameter\",\"type\":\"OAuthException\",\"code\":100,\"error_subcode\":2388293,\"is_transient\":false,\"error_user_title\":\"Parameters words ratio exceeds limit\",\"error_user_msg\":\"This template has too many variables for its length. Reduce the number of variables or increase the message length.\",\"fbtrace_id\":\"AZcTIAZqXv6X5k5poP66YuZ\"}}",
+      "timestamp": "2025-11-20T15:25:03.504Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Want to connect with {{1}}?\n\nVisit *{{2}}*\n\n🤝 *{{3}}* \n🚜 *{{4}}* \n⛺ *{{5}}*\n\n{{6}}\n\nUnlock \n{{7}}\nand much more\n\n🗓️ *{{8}}* December\n📍 {{9}}\n\n👇 Book your {{10}} now!",
+        "example": {
+          "body_text": [
+            [
+              "leaders in agriculture",
+              "KISAN – India’s Largest Agri Show",
+              "600+ Exhibitors",
+              "2000+ Products",
+              "10+ Specialized Pavilions",
+              "*Connect. Collaborate. Network.*\nOffer your business new opportunities.",
+              "* *Dedicated Business Lounge*\n* *Faster Access*\n* *Networking Opportunities*\n* *Entry on all 5 days*",
+              "10–14",
+              "PIECC, *Moshi, Pune*",
+              "Business Pass"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Invalid parameter\",\"type\":\"OAuthException\",\"code\":100,\"error_subcode\":2388293,\"is_transient\":false,\"error_user_title\":\"Parameters words ratio exceeds limit\",\"error_user_msg\":\"This template has too many variables for its length. Reduce the number of variables or increase the message length.\",\"fbtrace_id\":\"AHJYyrdyGCgxDjqxslNm5I5\"}}",
+      "timestamp": "2025-11-20T15:26:38.713Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Want to connect with leaders in agriculture?\n\nVisit *{{1}}*\n\n🤝 {{2}}\n\n*{{3}}*\nOffer your business new opportunities.\n\nUnlock \n{{4}}\nand much more\n\n🗓️ *{{5}}* December\n📍 PIECC, *{{6}}*\n\n👇 {{7}}",
+        "example": {
+          "body_text": [
+            [
+              "KISAN – India’s Largest Agri Show",
+              "*600+ Exhibitors* \n🚜 *2000+ Products* \n⛺ *10+ Specialized Pavilions*",
+              "Connect. Collaborate. Network.",
+              "* *Dedicated Business Lounge*\n* *Faster Access*\n* *Networking Opportunities*\n* *Entry on all 5 days*",
+              "10–14",
+              "Moshi, Pune",
+              "Book your Business Pass now!"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Invalid parameter\",\"type\":\"OAuthException\",\"code\":100,\"error_subcode\":2388299,\"is_transient\":false,\"error_user_title\":\"Leading or trailing params not allowed\",\"error_user_msg\":\"Variables can't be at the start or end of the template.\",\"fbtrace_id\":\"Aq3b39zv8ZduZ5WAvXelLXi\"}}",
+      "timestamp": "2025-11-20T15:28:51.009Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Want to connect with leaders in agriculture?\n\nVisit *{{1}}*\n\n🤝 *{{2}}* \n🚜 *{{3}}* \n⛺ *{{4}}*\n\n*{{5}}*\nOffer your business new opportunities.\n\nUnlock \n{{6}}\nand much more\n\n🗓️ *{{7}}* December\n📍 {{8}}\n\n👇 Book your Business Pass now!",
+        "example": {
+          "body_text": [
+            [
+              "KISAN – India’s Largest Agri Show",
+              "600+ Exhibitors",
+              "2000+ Products",
+              "10+ Specialized Pavilions",
+              "Connect. Collaborate. Network.",
+              "* *Dedicated Business Lounge*\n* *Faster Access*\n* *Networking Opportunities*\n* *Entry on all 5 days*",
+              "10–14",
+              "PIECC, *Moshi, Pune*"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"category\":\"MARKETING\",\"deleted\":true,\"name\":\"event_gate_pass_v6_262\"}",
+      "timestamp": "2025-11-20T15:31:04.792Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "🌾 Want to connect with leaders in agriculture?\n\nVisit *{{1}}*\n\n🤝 *{{2}}* \n🚜 *{{3}}* \n⛺ *{{4}}*\n\n*{{5}}*\nOffer your business {{6}}.\n\nUnlock \n* *{{7}}*\n* *{{8}}*\n* *{{9}}*\n* *{{10}}*\nand much more\n\n🗓️ *{{11}}* December\n📍 PIECC, *{{12}}*\n\n👇 {{13}}!",
+        "example": {
+          "body_text": [
+            [
+              "KISAN – India’s Largest Agri Show",
+              "600+ Exhibitors",
+              "2000+ Products",
+              "10+ Specialized Pavilions",
+              "Connect. Collaborate. Network.",
+              "new opportunities",
+              "Dedicated Business Lounge",
+              "Faster Access",
+              "Networking Opportunities",
+              "Entry on all 5 days",
+              "10–14",
+              "Moshi, Pune",
+              "Book your Business Pass now"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"error\":{\"message\":\"Invalid parameter\",\"type\":\"OAuthException\",\"code\":100,\"error_subcode\":2388299,\"is_transient\":false,\"error_user_title\":\"Leading or trailing params not allowed\",\"error_user_msg\":\"Variables can't be at the start or end of the template.\",\"fbtrace_id\":\"Ae3RFewwf9NT9QTsUStmkxV\"}}",
+      "timestamp": "2025-11-20T15:33:11.053Z"
+    },
+    {
+      "generatedBody": {
+        "type": "BODY",
+        "text": "Hi {{1}} 👋🏽\n\nYour personalised {{2}} insights report for {{3}} month is here.\n\nReview your:\n✅ Account Summary\n✅ Spending Patterns…\n\n… along with {{4}} valuable recommendations just for you*\n\n{{5}}\nTeam {{6}}\n*T&C Apply",
+        "example": {
+          "body_text": [
+            [
+              "Utkarsh Chowdhury",
+              "FIRST",
+              "October",
+              "3️⃣",
+              "Always you First",
+              "IDFC FIRST Bank"
+            ]
+          ]
+        }
+      },
+      "apiResponse": "{\"id\":\"741658381535366\",\"status\":\"PENDING\",\"category\":\"UTILITY\"}",
+      "timestamp": "2025-11-21T15:44:41.658Z"
+    }
+  ]
+}

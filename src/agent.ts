@@ -1,5 +1,7 @@
-import { generate, saveLearning } from './generate'
+import { generateModified, saveLearning as saveModifiedLearning } from './generate-modified'
+import { generateOriginal } from './generate-original'
 import { register } from './register'
+import { saveGeneratedTemplate } from './debug-utils'
 import { getTemplateName } from './template-names'
 import type { Label } from './select-label'
 
@@ -44,7 +46,7 @@ function findDifferences(original: string, reconstructed: string): string {
     return `First difference at position ${firstDiff}:\nOriginal: "${original.substring(contextStart, contextEnd)}"\nReconstructed: "${reconstructed.substring(contextStart, contextEnd)}"`
 }
 
-export async function agent(label: Label, template: any) {
+export async function agent(label: Label, template: any, allowModification: boolean) {
     let stop = false
     const previousFeedback: string[] = []
     let iteration = 0
@@ -54,12 +56,67 @@ export async function agent(label: Label, template: any) {
     const originalBody = template.components.find((comp: any) => comp.type == 'BODY')
     const originalText = originalBody?.text || ''
 
+    if (allowModification) {
+        console.log(`\n🔄 Creating entirely new UTILITY content (original content will be changed)`)
+        
+        while (stop == false && iteration < maxIterations) {
+            iteration++
+            console.log(`\n🔄 Iteration ${iteration}`)
+
+            // use new content generation approach
+            const { generatedBody } = await generateOriginal({ template, feedbacks: previousFeedback })
+            console.log(`✅ Generated new UTILITY content using AI`)
+
+            // assign new name and register with new body component
+            const templateName = getTemplateName()
+            const replaced = {
+                ...template,
+                components: template.components.map((comp: any) => comp.type == 'BODY' ? generatedBody : comp),
+                name: templateName
+            }
+            console.log(`✅ Crafted replacement with name: ${replaced.name}`)
+
+            // debug: save generated template
+            await saveGeneratedTemplate(generatedBody, templateName, replaced, iteration, allowModification)
+
+            // attempt registration
+            const result = await register(label, replaced)
+
+            // check if we got UTILITY + PENDING
+            if (result && result.category == 'UTILITY' && result.status == 'PENDING') {
+                console.log(`\n✅ Success! Template registered as UTILITY with PENDING status`)
+                console.log(`Template ID: ${result.id}`)
+                console.log(`Template Name: ${templateName}`)
+                console.log(`\n📝 New UTILITY content created and registered`)
+                stop = true
+            } else if (result && result.error) {
+                const errorMessage = result.error.error_user_msg || result.error.message || JSON.stringify(result.error)
+                console.log(`❌ Registration failed: ${errorMessage}`)
+                previousFeedback.push(`Registration attempt ${iteration} failed: ${errorMessage}`)
+            } else if (result && result.category == 'MARKETING') {
+                console.log(`❌ Got MARKETING category - new content was rejected`)
+                previousFeedback.push(`Registration attempt ${iteration} was categorized as MARKETING instead of UTILITY`)
+            } else if (result) {
+                console.log(`⚠️ Got category: ${result.category}, status: ${result.status}`)
+                previousFeedback.push(`Registration attempt ${iteration} resulted in category: ${result.category}, status: ${result.status}`)
+            }
+        }
+
+        if (iteration >= maxIterations) {
+            console.log(`\n⚠️ Reached maximum iterations (${maxIterations}) without success`)
+        }
+        
+        return
+    }
+
+    console.log(`\n🔒 Preserving original content using variable replacement approach`)
+
     while (stop == false && iteration < maxIterations) {
         iteration++
         console.log(`\n🔄 Iteration ${iteration}`)
 
-        // generate modified body using AI
-        const { generatedBody } = await generate({ template, feedbacks: previousFeedback })
+        // generate modified body using AI (aggressive variable replacement)
+        const { generatedBody, saveLearning } = await generateModified({ template, feedbacks: previousFeedback })
         console.log(`✅ Generated modified template using AI`)
 
         // replace body component and assign new name
@@ -70,6 +127,9 @@ export async function agent(label: Label, template: any) {
             name: templateName
         }
         console.log(`✅ Crafted replacement with name: ${replaced.name}`)
+
+        // debug: save generated template
+        await saveGeneratedTemplate(generatedBody, templateName, replaced, iteration, allowModification)
 
         // verify that reconstruction matches original
         const exampleValues = generatedBody.example?.body_text?.[0] || []
