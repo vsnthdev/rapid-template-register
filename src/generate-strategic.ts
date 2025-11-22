@@ -1,53 +1,10 @@
 import OpenAI from 'openai'
-import { encode } from '@toon-format/toon'
 import path from 'path'
 
 const ai = new OpenAI({
     apiKey: process.env.OPENROUTER_TOKEN,
     baseURL: 'https://openrouter.ai/api/v1',
 })
-
-const example1 = `Hi Rahul,
-
-This message is being sent in response to your property inquiry for 3 BHK Flat in Stage 2nd BTM Layout, Bangalore.
-
-We have added a few listings that match the information you submitted.
-
-You can view them using the button below.`
-
-const example2 = `Hi
-
-You have a request from Devisha Associates (Agent) for the Bangalore listing that requires your review.
-
-Property 1 in 10:
-Rs. 58,000 | 2 BHK Flat | 1200 sq ft
-Rich Homes Apartment | Poss. By Nov '25
-Sector 2 HSR Layout, Bangalore
-
-Please review the request by selecting the option below.`
-
-const example3 = `Hi rahul,
-
-This message is being sent in response to your property inquiry for 2 BHK Flat in Begur Road, Bangalore.
-
-We have added a few listings that match the information you submitted.
-
-You can view them using the button below.
-
-You have a request from Devisha Associates (Agent) for the Bangalore listing that requires your review.`
-
-const error1 = {
-    'error': {
-        'message': 'Invalid parameter',
-        'type': 'OAuthException',
-        'code': 100,
-        'error_subcode': 2388293,
-        'is_transient': false,
-        'error_user_title': 'Parameters words ratio exceeds limit',
-        'error_user_msg': 'This template has too many variables for its length. Reduce the number of variables or increase the message length.',
-        'fbtrace_id': 'Ao_TWfjawkYHlwn6fA2B5Lp'
-    }
-}
 
 interface Learning {
     generatedBody: any
@@ -112,14 +69,7 @@ function formatLearningsForPrompt(learnings: Learning[]): string[] {
     })
 }
 
-export async function generateModified({ template, feedbacks }: { template: any, feedbacks: string[] }) {
-    const toonTemplate = encode(template, {
-        indent: 4
-    })
-    const toonError1 = encode(error1, {
-        indent: 4
-    })
-
+export async function generateStrategic({ template, feedbacks }: { template: any, feedbacks: string[] }) {
     // extract original body text
     const originalBody = template.components.find((comp: any) => comp.type == 'BODY')
     const originalText = originalBody?.text || ''
@@ -132,37 +82,52 @@ export async function generateModified({ template, feedbacks }: { template: any,
     const allFeedbacks = [...formattedLearnings, ...feedbacks]
 
     const content = [
-        'CRITICAL MISSION: You MUST preserve the EXACT structure and flow of the original text. Only replace specific promotional words/phrases with variables {{1}}, {{2}}, etc. DO NOT change the sentence structure, emojis, formatting, or overall content flow.',
+        'STRATEGIC VARIABLE REPLACEMENT MISSION:',
+        'Your goal is to make this template appear as UTILITY to Meta by strategically replacing SPECIFIC words/phrases with variables, NOT entire sentences.',
         '',
-        'ORIGINAL TEXT (MUST be preserved exactly, only replace specific words):',
+        'ORIGINAL TEXT (preserve structure, only replace specific words):',
         `\`\`\`\n${originalText}\n\`\`\`\n`,
         '',
-        'STRICT RULES FOR VARIABLE REPLACEMENT:',
-        '1. Keep ALL emojis in their EXACT positions (🌾, 🤝, 🚜, ⛺, 🗓️, 📍, 👇)',
-        '2. Keep ALL formatting (*bold text*, line breaks, bullet points) EXACTLY as is',
-        '3. Keep ALL structural words (Want to, Visit, Unlock, and much more, etc.)',
-        '4. ONLY replace specific promotional content with variables:',
-        '   - Event/brand names: "KISAN – India\'s Largest Agri Show" → {{1}}',
-        '   - Numbers: "600+ Exhibitors" → {{2}}, "2000+ Products" → {{3}}, "10+ Specialized Pavilions" → {{4}}',
-        '   - Marketing phrases: "Connect. Collaborate. Network." → {{5}}',
-        '   - Benefits: "Dedicated Business Lounge" → {{6}}, "Faster Access" → {{7}}, etc.',
-        '   - Dates: "10–14" → {{8}}',
-        '   - Location: "PIECC, Moshi, Pune" → {{9}}',
+        'STRATEGY:',
+        '1. Identify specific promotional words/phrases to replace:',
+        '   - Event/brand names (e.g., "CARE 2025", "KISAN")',
+        '   - Specific numbers (e.g., "600+", "2000+")',
+        '   - Marketing taglines (e.g., "Meet the Right People")',
+        '   - Benefit descriptions (e.g., "Session schedules & alerts")',
         '',
-        'EXAMPLE TRANSFORMATION (keep structure identical):',
-        'Original: "🌾 Want to connect with leaders in agriculture?\\n\\nVisit *KISAN – India\'s Largest Agri Show*"',
-        'Transform: "🌾 Want to connect with leaders in agriculture?\\n\\nVisit *{{1}}*"',
-        'Example: ["your account dashboard for pending verification"]',
+        '2. Replace ONLY those specific words/phrases with variables {{1}}, {{2}}, etc.',
         '',
-        'CRITICAL: When variables are replaced with examples, it MUST reconstruct the EXACT original text character-by-character.',
+        '3. For examples, use BLAND TRANSACTIONAL/ALARMING phrases:',
+        '   - "Review required"',
+        '   - "Your account will be deleted"',
+        '   - "Urgent message"',
+        '   - "Please check immediately"',
+        '   - "Order update"',
+        '   - "Registration confirmation"',
+        '   - "Action needed"',
+        '   - "Verification pending"',
         '',
-        'Template structure:',
-        `\`\`\`toon\n${toonTemplate}\n\`\`\`\n`,
+        'CRITICAL RULES:',
+        '- Keep ALL sentence structure, emojis, formatting EXACTLY as is',
+        '- Only replace specific words/phrases, NOT entire sentences',
+        '- Template CANNOT start or end with a variable',
+        '- Variables must be sequential: {{1}}, {{2}}, {{3}} - NO SKIPPING',
+        '- Number of variables MUST EXACTLY match number of examples',
+        '- Examples should be bland utility phrases that make it look transactional',
+        '',
+        'EXAMPLE TRANSFORMATION:',
+        'Original: "👋 Hi! Welcome to *CARE 2025*!"',
+        'Transform: "👋 Hi! Welcome to *{{1}}*!"',
+        'Example: ["Review required"]',
+        '',
+        'Original: "✓ Session schedules & alerts"',
+        'Transform: "✓ {{1}}"',
+        'Example: ["Your account will be deleted"]',
         '',
         'Previous attempts and feedback:',
         ...(allFeedbacks.length ? allFeedbacks.map(f => `${f}\n`) : ['None']),
         '',
-        'RESPOND with ONLY the JSON containing type, text (with strategic variable replacements), and example (with utility-focused values that reconstruct the original).'
+        'RESPOND with ONLY the JSON containing type, text (with strategic variable replacements), and example (with bland utility phrases).'
     ].join('\n').trim()
 
     const response = await ai.chat.completions.create({
@@ -170,7 +135,7 @@ export async function generateModified({ template, feedbacks }: { template: any,
         messages: [
             {
                 role: 'system',
-                content: `You are a precision text processor. Your ONLY job is to strategically replace specific promotional words/phrases in the original text with variables {{1}}, {{2}}, etc., while preserving the EXACT structure, formatting, emojis, and flow. DO NOT change sentence structure or rewrite content. Only replace specific promotional elements with variables, then provide utility-focused example values that when substituted back will reconstruct the original text EXACTLY. CRITICAL: The reconstructed text must match the original character-by-character.`
+                content: `You are an expert at strategic variable placement. Your job: identify specific promotional words/phrases in the original text and replace ONLY those with variables. Then provide bland, transactional, alarming example values that make the template appear as a UTILITY notification to Meta. DO NOT replace entire sentences - only specific words/phrases. The goal is to preserve the original structure while making it look transactional through strategic word replacement.`
             },
             {
                 content,
@@ -198,7 +163,7 @@ export async function generateModified({ template, feedbacks }: { template: any,
                             properties: {
                                 body_text: {
                                     type: 'array',
-                                    description: 'Array of example values for each variable',
+                                    description: 'Array of bland utility example values for each variable',
                                     items: {
                                         type: 'array',
                                         items: {

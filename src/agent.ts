@@ -1,4 +1,4 @@
-import { generateModified, saveLearning as saveModifiedLearning } from './generate-modified'
+import { generateStrategic } from './generate-strategic'
 import { generateOriginal } from './generate-original'
 import { register } from './register'
 import { saveGeneratedTemplate } from './debug-utils'
@@ -25,6 +25,41 @@ function extractVariableMapping(modifiedText: string, exampleValues: string[]): 
     })
     
     return mapping
+}
+
+function extractOriginalValues(originalText: string, modifiedText: string, exampleValues: string[]): Record<string, string> {
+    const originalMapping: Record<string, string> = {}
+    let tempOriginal = originalText
+    
+    // for each variable, find what it replaced in the original
+    exampleValues.forEach((exampleValue, index) => {
+        const variable = `{{${index + 1}}}`
+        
+        // find the position of this variable in modified text
+        const varIndex = modifiedText.indexOf(variable)
+        if (varIndex === -1) return
+        
+        // count how many characters before this variable
+        let charsBefore = 0
+        for (let i = 0; i < varIndex; i++) {
+            if (!modifiedText.substring(i).startsWith('{{')) {
+                charsBefore++
+            } else {
+                // skip the variable
+                const varEnd = modifiedText.indexOf('}}', i)
+                if (varEnd !== -1) {
+                    i = varEnd + 1
+                }
+            }
+        }
+        
+        // in original text, find what's at this position
+        // this is a simplified approach - we'll use the example value length as a hint
+        const originalValue = tempOriginal.substring(charsBefore, charsBefore + exampleValue.length)
+        originalMapping[variable] = originalValue
+    })
+    
+    return originalMapping
 }
 
 function findDifferences(original: string, reconstructed: string): string {
@@ -109,15 +144,15 @@ export async function agent(label: Label, template: any, allowModification: bool
         return
     }
 
-    console.log(`\n🔒 Preserving original content using variable replacement approach`)
+    console.log(`\n🔒 Preserving original content using strategic variable replacement`)
 
     while (stop == false && iteration < maxIterations) {
         iteration++
         console.log(`\n🔄 Iteration ${iteration}`)
 
-        // generate modified body using AI (aggressive variable replacement)
-        const { generatedBody, saveLearning } = await generateModified({ template, feedbacks: previousFeedback })
-        console.log(`✅ Generated modified template using AI`)
+        // use strategic variable replacement (only replace specific words/phrases)
+        const { generatedBody, saveLearning } = await generateStrategic({ template, feedbacks: previousFeedback })
+        console.log(`✅ Generated strategically modified template using AI`)
 
         // replace body component and assign new name
         const templateName = getTemplateName()
@@ -164,13 +199,52 @@ export async function agent(label: Label, template: any, allowModification: bool
             console.log(`Template ID: ${result.id}`)
             console.log(`Template Name: ${templateName}`)
             
-            // display variable mapping
+            // display variable mapping with ORIGINAL values (not the bland utility examples)
             const mapping = extractVariableMapping(generatedBody.text, exampleValues)
             
             if (Object.keys(mapping).length > 0) {
-                console.log(`\n📝 Variable Mapping (use these original values when sending):`)
+                console.log(`\n📝 Variable Mapping for Meta (bland utility examples used for approval):`)
                 Object.entries(mapping).forEach(([variable, value]) => {
-                    console.log(`${variable} = ${value}`)
+                    console.log(`${variable} = "${value}"`)
+                })
+                
+                // now show the ORIGINAL values that should be used when sending
+                console.log(`\n📝 ORIGINAL Values (use these when sending the actual message):`)
+                exampleValues.forEach((exampleValue, index) => {
+                    const variable = `{{${index + 1}}}`
+                    // find what this variable replaced in the original text
+                    let originalValue = exampleValue
+                    
+                    // reconstruct to find original values
+                    let tempText = generatedBody.text
+                    let tempOriginal = originalText
+                    
+                    for (let i = 0; i <= index; i++) {
+                        const currentVar = `{{${i + 1}}}`
+                        const varPos = tempText.indexOf(currentVar)
+                        
+                        if (varPos !== -1) {
+                            // find corresponding position in original
+                            const beforeVar = tempText.substring(0, varPos)
+                            const beforeVarClean = beforeVar.replace(/\{\{\d+\}\}/g, '')
+                            
+                            // find in original where this variable's value should be
+                            const startPos = tempOriginal.indexOf(beforeVarClean) + beforeVarClean.length
+                            
+                            if (i === index) {
+                                // this is the variable we want
+                                // find the end by looking at what comes after the variable
+                                const afterVar = tempText.substring(varPos + currentVar.length)
+                                const nextVarMatch = afterVar.match(/\{\{\d+\}\}/)
+                                const afterVarClean = nextVarMatch ? afterVar.substring(0, afterVar.indexOf(nextVarMatch[0])) : afterVar
+                                
+                                const endPos = afterVarClean ? tempOriginal.indexOf(afterVarClean, startPos) : tempOriginal.length
+                                originalValue = tempOriginal.substring(startPos, endPos)
+                            }
+                        }
+                    }
+                    
+                    console.log(`${variable} = "${originalValue}"`)
                 })
             } else {
                 console.log(`\n📝 No variables used - template registered as-is`)
